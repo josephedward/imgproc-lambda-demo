@@ -1,0 +1,38 @@
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+service: image-service
+publish: false
+provider:
+  name: aws
+  runtime: nodejs12.x
+  profile: dado-interview
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  apiGateway:
+    minimumCompressionSize: 1024
+    binaryMediaTypes:
+      - '*/*'
+  environment:
+    S3_BUCKET: dado-playground-${self:provider.stage}-images
+
+functions:
+  process-image:
+    description: Resizes and crops an image
+    handler: src/lambdas/process-image.handler
+    timeout: 30
+    memorySize: 1024
+    events:
+      - http:
+          path: image
+          method: get
+    layers:
+      - arn:aws:lambda:us-east-1:787220570987:layer:sharp:1
+
+custom:
+  serverless-offline:
+    port: 4000
+    host: 0.0.0.0
+    dontPrintOutput: true
+    useSeparateProcesses: true
