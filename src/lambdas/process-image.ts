@@ -3,9 +3,9 @@ import AWS from "aws-sdk";
 import jimp from "jimp";
 
 AWS.config.update({
-  accessKeyId: "AKIATYDRR7MGN5W3M2CF",
-  secretAccessKey: "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",
-  region: "us-east-1",
+  accessKeyId: "",
+  secretAccessKey: "",
+  region: "",
 });
 
 const s3 = new AWS.S3();
